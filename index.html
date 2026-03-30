@@ -1,165 +1,241 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tính Lương PT</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<style>
-    * {
-        box-sizing: border-box;
-    }
+  <meta charset="UTF-8">
+  <title>Tính lương PT</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; font-family: 'Poppins'; }
+
     body {
-        font-family: 'Inter', sans-serif;
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(135deg, #6a11cb, #2575fc);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .container {
-        background: #fff;
-        padding: 40px;
-        border-radius: 15px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        max-width: 500px;
-        width: 90%;
-    }
-    h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 30px;
-    }
-    label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #555;
-    }
-    input {
-        width: 100%;
-        padding: 12px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-        margin-bottom: 20px;
-        transition: border 0.3s;
-    }
-    input:focus {
-        border-color: #2575fc;
-        outline: none;
-    }
-    button {
-        width: 100%;
-        padding: 14px;
-        background-color: #2575fc;
-        border: none;
-        color: #fff;
-        font-size: 16px;
-        font-weight: 600;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-    button:hover {
-        background-color: #6a11cb;
-    }
-    .result {
-        margin-top: 30px;
-        background: #f1f5f9;
-        padding: 25px;
-        border-radius: 12px;
-        display: none;
-        animation: fadeIn 0.5s ease forwards;
-    }
-    .result p {
-        font-size: 18px;
-        margin: 10px 0;
-        color: #333;
-    }
-    .result p span {
-        font-weight: 600;
-        color: #2575fc;
+      margin: 0;
+      background: linear-gradient(135deg, #1e3c72, #6a11cb);
+      color: white;
+      padding: 20px;
     }
 
-    @keyframes fadeIn {
-        from {opacity: 0; transform: translateY(20px);}
-        to {opacity: 1; transform: translateY(0);}
+    h1 { text-align: center; }
+
+    .container { max-width: 900px; margin: auto; }
+
+    .card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
     }
-</style>
+
+    input {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 8px;
+      border: none;
+      width: 130px;
+    }
+
+    .row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    button {
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: none;
+      background: #4facfe;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover { background: #3a8ee6; }
+
+    table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    tr { background: rgba(255,255,255,0.08); }
+
+    .delete { background: #ff4d6d; }
+
+    .result {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .box {
+      background: rgba(255,255,255,0.15);
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .total { font-weight: bold; font-size: 20px; }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Tính Lương PT</h1>
-    
-    <label for="target">Nhập Target (VNĐ):</label>
-    <input type="number" id="target" placeholder="Ví dụ: 45000000">
-    
-    <button onclick="calculateSalary()">Tính Lương</button>
+<h1>Tính lương PT</h1>
 
-    <div class="result" id="result">
-        <p>Lương CB: <span id="cb"></span></p>
-        <p>Com Bán: <span id="comBan"></span></p>
-        <p>Com Dạy: <span id="comDay"></span></p>
-        <p>Thưởng: <span id="thuong"></span></p>
+<div class="container">
+
+  <!-- TARGET -->
+  <div class="card">
+    <h3>Target</h3>
+    <input type="number" id="target" placeholder="Doanh thu">
+    <div id="levelInfo"></div>
+  </div>
+
+  <!-- KHÁCH -->
+  <div class="card">
+    <h3>Khách dạy</h3>
+
+    <div class="row">
+      <input id="name" placeholder="Tên">
+      <input id="price" type="number" placeholder="Giá / buổi">
+      <input id="sessions" type="number" placeholder="Số buổi">
+      <input id="percentInput" type="number" placeholder="% com">
+      <button onclick="addStudent()">Thêm</button>
     </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tên</th>
+          <th>% com</th>
+          <th>Giá</th>
+          <th>Buổi</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+  </div>
+
+  <!-- RESULT -->
+  <div class="card">
+    <button onclick="calculate()">Tính lương</button>
+    <div class="result" id="result"></div>
+  </div>
+
 </div>
 
 <script>
-    function calculateSalary() {
-        const target = parseFloat(document.getElementById('target').value);
-        let cb = 0, comBan = 0, comDay = 0, thuong = 0;
+let students = [];
+let currentLevel = null;
 
-        if (!target || target < 0) {
-            alert("Vui lòng nhập target hợp lệ!");
-            return;
-        }
+// mapping theo bảng
+function getLevel(target) {
+  if (target < 20000000) return { base: 3000000, sale: 0.01, teach: 0.10 };
+  if (target < 30000000) return { base: 3500000, sale: 0.02, teach: 0.15 };
+  if (target < 40000000) return { base: 4000000, sale: 0.03, teach: 0.20 };
+  if (target < 50000000) return { base: 4500000, sale: 0.04, teach: 0.25 };
+  if (target < 60000000) return { base: 5000000, sale: 0.05, teach: 0.30 };
+  if (target < 70000000) return { base: 5500000, sale: 0.06, teach: 0.32 };
+  return { base: 6000000, sale: 0.07, teach: 0.35 };
+}
 
-        if (target < 20000000) {
-            cb = 3000000;
-            comBan = target * 0.01;
-            comDay = cb * 0.10;
-        } else if (target < 30000000) {
-            cb = 3500000;
-            comBan = target * 0.02;
-            comDay = cb * 0.15;
-        } else if (target < 40000000) {
-            cb = 4000000;
-            comBan = target * 0.03;
-            comDay = cb * 0.20;
-            thuong = 200000;
-        } else if (target < 50000000) {
-            cb = 4500000;
-            comBan = target * 0.04;
-            comDay = cb * 0.25;
-        } else if (target < 60000000) {
-            cb = 5000000;
-            comBan = target * 0.05;
-            comDay = cb * 0.30;
-            thuong = 500000;
-        } else if (target < 70000000) {
-            cb = 5500000;
-            comBan = target * 0.06;
-            comDay = cb * 0.32;
-        } else if (target < 80000000) {
-            cb = 6000000;
-            comBan = target * 0.07;
-            comDay = cb * 0.35;
-        } else {
-            cb = 8000000;
-            comBan = target * 0.07;
-            comDay = cb * 0.35;
-        }
+// xử lý khi nhập target
+function handleTarget() {
+  const target = parseFloat(document.getElementById("target").value);
+  if (!target) return;
 
-        document.getElementById('result').style.display = 'block';
-        document.getElementById('cb').innerText = cb.toLocaleString('vi-VN') + ' VNĐ';
-        document.getElementById('comBan').innerText = comBan.toLocaleString('vi-VN') + ' VNĐ';
-        document.getElementById('comDay').innerText = comDay.toLocaleString('vi-VN') + ' VNĐ';
-        document.getElementById('thuong').innerText = thuong.toLocaleString('vi-VN') + ' VNĐ';
-    }
+  currentLevel = getLevel(target);
+
+  document.getElementById("levelInfo").innerHTML = `
+    Lương CB: ${currentLevel.base.toLocaleString()} |
+    Com bán: ${currentLevel.sale * 100}% |
+    Com dạy: ${currentLevel.teach * 100}%
+  `;
+
+  // auto fill % com dạy
+  document.getElementById("percentInput").value = currentLevel.teach * 100;
+}
+
+// gắn event đúng chuẩn (fix lỗi)
+window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("target").addEventListener("input", handleTarget);
+});
+
+// thêm khách
+function addStudent() {
+  if (!currentLevel) return alert("Nhập target trước!");
+
+  const name = document.getElementById("name").value;
+  const price = parseFloat(document.getElementById("price").value);
+  const sessions = parseInt(document.getElementById("sessions").value);
+  const percent = parseFloat(document.getElementById("percentInput").value) / 100;
+
+  if (!name || !price || !sessions || !percent) {
+    alert("Nhập đủ thông tin!");
+    return;
+  }
+
+  students.push({ name, price, sessions, percent });
+  render();
+}
+
+// render bảng
+function render() {
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  students.forEach((s, i) => {
+    list.innerHTML += `
+      <tr>
+        <td>${s.name}</td>
+        <td>
+          <input type="number" value="${s.percent * 100}" 
+            onchange="updatePercent(${i}, this.value)">
+        </td>
+        <td>${s.price.toLocaleString()}</td>
+        <td>${s.sessions}</td>
+        <td><button class="delete" onclick="remove(${i})">X</button></td>
+      </tr>
+    `;
+  });
+}
+
+// update %
+function updatePercent(index, value) {
+  students[index].percent = parseFloat(value) / 100;
+}
+
+// xoá
+function remove(index) {
+  students.splice(index, 1);
+  render();
+}
+
+// tính lương
+function calculate() {
+  const target = parseFloat(document.getElementById("target").value);
+  if (!target || !currentLevel) return alert("Nhập target!");
+
+  const saleCom = target * currentLevel.sale;
+
+  let teachCom = 0;
+  students.forEach(s => {
+    teachCom += s.price * s.sessions * s.percent;
+  });
+
+  const total = currentLevel.base + saleCom + teachCom;
+
+  document.getElementById("result").innerHTML = `
+    <div class="box">Lương CB<br>${currentLevel.base.toLocaleString()}</div>
+    <div class="box">Com bán<br>${saleCom.toLocaleString()}</div>
+    <div class="box">Com dạy<br>${teachCom.toLocaleString()}</div>
+    <div class="box total">Tổng<br>${total.toLocaleString()} VNĐ</div>
+  `;
+}
 </script>
 
 </body>
