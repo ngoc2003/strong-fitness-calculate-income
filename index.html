@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tính Lương PT</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        max-width: 500px;
+        width: 90%;
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #555;
+    }
+    input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        margin-bottom: 20px;
+        transition: border 0.3s;
+    }
+    input:focus {
+        border-color: #2575fc;
+        outline: none;
+    }
+    button {
+        width: 100%;
+        padding: 14px;
+        background-color: #2575fc;
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    button:hover {
+        background-color: #6a11cb;
+    }
+    .result {
+        margin-top: 30px;
+        background: #f1f5f9;
+        padding: 25px;
+        border-radius: 12px;
+        display: none;
+        animation: fadeIn 0.5s ease forwards;
+    }
+    .result p {
+        font-size: 18px;
+        margin: 10px 0;
+        color: #333;
+    }
+    .result p span {
+        font-weight: 600;
+        color: #2575fc;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(20px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Tính Lương PT</h1>
+    
+    <label for="target">Nhập Target (VNĐ):</label>
+    <input type="number" id="target" placeholder="Ví dụ: 45000000">
+    
+    <button onclick="calculateSalary()">Tính Lương</button>
+
+    <div class="result" id="result">
+        <p>Lương CB: <span id="cb"></span></p>
+        <p>Com Bán: <span id="comBan"></span></p>
+        <p>Com Dạy: <span id="comDay"></span></p>
+        <p>Thưởng: <span id="thuong"></span></p>
+    </div>
+</div>
+
+<script>
+    function calculateSalary() {
+        const target = parseFloat(document.getElementById('target').value);
+        let cb = 0, comBan = 0, comDay = 0, thuong = 0;
+
+        if (!target || target < 0) {
+            alert("Vui lòng nhập target hợp lệ!");
+            return;
+        }
+
+        if (target < 20000000) {
+            cb = 3000000;
+            comBan = target * 0.01;
+            comDay = cb * 0.10;
+        } else if (target < 30000000) {
+            cb = 3500000;
+            comBan = target * 0.02;
+            comDay = cb * 0.15;
+        } else if (target < 40000000) {
+            cb = 4000000;
+            comBan = target * 0.03;
+            comDay = cb * 0.20;
+            thuong = 200000;
+        } else if (target < 50000000) {
+            cb = 4500000;
+            comBan = target * 0.04;
+            comDay = cb * 0.25;
+        } else if (target < 60000000) {
+            cb = 5000000;
+            comBan = target * 0.05;
+            comDay = cb * 0.30;
+            thuong = 500000;
+        } else if (target < 70000000) {
+            cb = 5500000;
+            comBan = target * 0.06;
+            comDay = cb * 0.32;
+        } else if (target < 80000000) {
+            cb = 6000000;
+            comBan = target * 0.07;
+            comDay = cb * 0.35;
+        } else {
+            cb = 8000000;
+            comBan = target * 0.07;
+            comDay = cb * 0.35;
+        }
+
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('cb').innerText = cb.toLocaleString('vi-VN') + ' VNĐ';
+        document.getElementById('comBan').innerText = comBan.toLocaleString('vi-VN') + ' VNĐ';
+        document.getElementById('comDay').innerText = comDay.toLocaleString('vi-VN') + ' VNĐ';
+        document.getElementById('thuong').innerText = thuong.toLocaleString('vi-VN') + ' VNĐ';
+    }
+</script>
+
+</body>
+</html>
