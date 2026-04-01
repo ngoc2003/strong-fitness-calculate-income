@@ -2,14 +2,55 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <title>TÍNH LƯƠNG PT</title>
 
+    <!-- SEO cơ bản -->
+    <title>Tính Lương PT Online | Công cụ tính lương Personal Trainer</title>
+    <meta
+      name="description"
+      content="Công cụ tính lương PT (Personal Trainer) nhanh chóng, chính xác. Tính lương cơ bản, commission bán và commission dạy chỉ trong vài giây."
+    />
+    <meta
+      name="keywords"
+      content="tính lương PT, personal trainer salary, tính lương gym, commission PT, fitness salary calculator"
+    />
+    <meta name="author" content="PT Salary Tool" />
+
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Robots (cho Google index) -->
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph (Facebook, Zalo share) -->
+    <meta property="og:title" content="Tính Lương PT Online" />
+    <meta
+      property="og:description"
+      content="Tool tính lương Personal Trainer cực nhanh và dễ dùng."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://yourdomain.com/preview.png" />
+    <meta property="og:url" content="https://yourdomain.com" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tính Lương PT Online" />
+    <meta
+      name="twitter:description"
+      content="Công cụ tính lương PT chuyên nghiệp."
+    />
+    <meta name="twitter:image" content="https://yourdomain.com/preview.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
+    <!-- Excel lib -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
       :root {
         --bg: #f6f7fb;
@@ -44,6 +85,12 @@
         transition: 0.3s;
       }
 
+      .container {
+        max-width: 900px;
+        padding: 0 20px;
+        margin: auto;
+      }
+
       /* HEADER */
       h1 {
         text-align: center;
@@ -75,7 +122,6 @@
         border: 1px solid var(--border);
         border-radius: 10px;
         padding: 12px;
-        /* width: 100%; */
         flex: 1;
       }
 
@@ -85,15 +131,11 @@
         outline: none;
       }
 
-      #target {
-        width: 100%;
-      }
-
       #levelInfo {
         margin-top: 16px;
         font-size: 14px;
       }
-      /* GRID */
+
       .form-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -101,14 +143,12 @@
         margin-bottom: 16px;
       }
 
-      /* BUTTON GROUP */
       .button-group {
         display: flex;
         gap: 12px;
         margin-top: 10px;
       }
 
-      /* BUTTON */
       button {
         flex: 1;
         padding: 12px;
@@ -134,7 +174,6 @@
         box-shadow: 0 8px 20px var(--primary-soft);
       }
 
-      /* EXCEL BUTTON */
       button.excel {
         background: linear-gradient(135deg, #22c55e, #16a34a);
         box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
@@ -159,7 +198,6 @@
         border-bottom: 1px solid var(--border);
       }
 
-      /* RESULT BOX */
       .result-box {
         margin-top: 20px;
         padding: 20px;
@@ -191,7 +229,6 @@
         border-radius: 6px;
       }
 
-      /* TOGGLE BUTTON */
       .theme-toggle {
         position: fixed;
         top: 20px;
@@ -207,7 +244,6 @@
         margin-top: 16px;
       }
 
-      /* card thường */
       .stat-card {
         background: var(--card);
         border: 1px solid var(--border);
@@ -224,7 +260,6 @@
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
       }
 
-      /* label */
       .stat-card .label {
         display: block;
         font-size: 13px;
@@ -232,13 +267,11 @@
         margin-bottom: 6px;
       }
 
-      /* value */
       .stat-card strong {
         font-size: 18px;
         color: var(--text);
       }
 
-      /* TOTAL nổi bật */
       .stat-card.total {
         border: 1px solid var(--primary);
         box-shadow: 0 0 10px var(--primary-soft);
@@ -249,8 +282,26 @@
         color: var(--primary);
         text-shadow: 0 0 6px var(--primary-soft);
       }
+
+      .required::after {
+        content: "*";
+        color: red;
+        margin-left: 4px;
+      }
     </style>
   </head>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Tính Lương PT Online",
+      "description": "Công cụ tính lương Personal Trainer với commission bán và dạy.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "url": "https://yourdomain.com"
+    }
+  </script>
 
   <body>
     <button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
@@ -269,10 +320,22 @@
         <h3>Khách dạy</h3>
 
         <div class="form-grid">
-          <input id="name" placeholder="Tên khách" />
-          <input id="price" placeholder="500.000" />
-          <input id="sessions" type="number" placeholder="8" />
-          <input id="percentInput" disabled placeholder="%" />
+          <div>
+            <label for="name">Tên khách</label>
+            <input id="name" placeholder="Tên khách" />
+          </div>
+          <div>
+            <label class="required" for="price">Giá 1 buổi</label>
+            <input id="price" placeholder="500.000" />
+          </div>
+          <div>
+            <label class="required" for="sessions">Số buổi</label>
+            <input id="sessions" type="number" placeholder="8" />
+          </div>
+          <div>
+            <label for="percentInput">% Com dạy</label>
+            <input id="percentInput" disabled placeholder="%" />
+          </div>
         </div>
 
         <button class="add" onclick="addStudent()">Thêm</button>
@@ -414,8 +477,13 @@
         render();
       }
 
+      function canSubmit() {
+        return target.value && students.length > 0;
+      }
       /* CALC */
       function calculate() {
+        if (!canSubmit()) return alert("Nhập thiếu thông tin");
+
         const targetInput = document.getElementById("target");
         const target = unformatNumber(targetInput.value);
         const sale = target * currentLevel.sale;
@@ -458,9 +526,54 @@
         `;
       }
 
-      /* EXPORT */
       function exportExcel() {
-        alert("Export Excel OK (logic giữ nguyên)");
+        if (!canSubmit()) return alert("Nhập thiếu thông tin");
+
+        const target = unformatNumber(document.getElementById("target").value);
+        if (!target || !currentLevel)
+          return alert("Tính lương trước khi xuất!");
+        const saleCom = target * currentLevel.sale;
+        let teachCom = 0;
+        students.forEach((s) => {
+          teachCom += s.price * s.sessions * s.percent;
+        });
+        const total = currentLevel.base + saleCom + teachCom;
+        const summaryData = [
+          ["BẢNG TÍNH LƯƠNG PT", "", "", ""],
+          ["Ngày xuất:", new Date().toLocaleDateString("vi-VN"), "", ""],
+          ["", "", "", ""],
+          ["THÔNG TIN TỔNG QUAN", "", "", ""],
+          ["Target doanh thu:", target.toLocaleString() + " VNĐ", "", ""],
+          [
+            "Lương cơ bản:",
+            currentLevel.base.toLocaleString() + " VNĐ",
+            "",
+            "",
+          ],
+          [
+            "Hoa hồng bán hàng (" + currentLevel.sale * 100 + "%):",
+            saleCom.toLocaleString() + " VNĐ",
+            "",
+            "",
+          ],
+          ["Hoa hồng dạy học:", teachCom.toLocaleString() + " VNĐ", "", ""],
+          ["TỔNG LƯƠNG:", total.toLocaleString() + " VNĐ", "", ""],
+          ["", "", "", ""],
+          ["CHI TIẾT KHÁCH HÀNG", "", "", ""],
+          ["Tên khách", "Giá/buổi", "Số buổi", "% Hoa hồng", "Thành tiền"],
+        ];
+        students.forEach((s) => {
+          const amount = s.price * s.sessions * s.percent;
+          summaryData.push([
+            s.name,
+            s.price.toLocaleString(),
+            s.sessions,
+            s.percent * 100 + "%",
+            amount.toLocaleString(),
+          ]);
+        });
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(summaryData); // Style cho Excel ws["!cols"] = [ { width: 20 }, { width: 15 }, { width: 10 }, { width: 12 }, { width: 15 }, ]; XLSX.utils.book_append_sheet(wb, ws, "Bảng lương PT"); XLSX.writeFile( wb, `Luong_PT_${new Date().toISOString().split("T")[0]}.xlsx` );
       }
     </script>
   </body>
